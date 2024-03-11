@@ -55,6 +55,6 @@
     // Gestionnaire d'événements pour le bouton "Charger plus"
     document.getElementById('load-more').addEventListener('click', loadEquipment);
   </script>
-  <script src="dist/bundle.js"></script>
+  <script src="../../../dist/bundle.js"></script>
 </body>
 </html>
