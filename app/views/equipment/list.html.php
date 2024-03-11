@@ -20,27 +20,25 @@
   </div>
 
   <?php include '../shared/footer.html.php'; ?>
-
   
   <script>
     let offset = 0; // Décalage pour la requête de la prochaine série d'équipements
     const limit = 10; // Nombre d'éléments à la fois
 
     // Fonction pour charger dynamiquement l'équipement
-    function loadEquipment() {
-      fetch(`load-equipment.php?offset=${offset}&limit=${limit}`)
+    function loadModel() {
+      fetch(`../../../config/load-equipment.php?offset=${offset}&limit=${limit}`)
         .then(response => response.json())
         .then(data => {
           data.forEach(item => {
-            const equipmentItem = `<div class="card">
-              <img class="card-img-top" src="${item.image}" alt="${item.name}">
+            const modelItem = `<div class="card">
+              <img class="card-img-top" src="${item.photo}" alt="${item.name}">
               <div class="card-body">
                 <h5 class="card-title">${item.name}</h5>
                 <p class="card-text">${item.description}</p>
-                <p class="card-text">Prix : ${item.price}</p>
               </div>
             </div>`;
-            document.getElementById('equipment-list').insertAdjacentHTML('beforeend', equipmentItem);
+            document.getElementById('equipment-list').insertAdjacentHTML('beforeend', modelItem);
           });
           offset += limit; // Augmenter le décalage
         })
@@ -50,10 +48,10 @@
     }
 
     // Chargement initial de l'équipement
-    loadEquipment();
+    loadModel();
 
     // Gestionnaire d'événements pour le bouton "Charger plus"
-    document.getElementById('load-more').addEventListener('click', loadEquipment);
+    document.getElementById('load-more').addEventListener('click', loadModel);
   </script>
   <script src="../../../dist/bundle.js"></script>
 </body>

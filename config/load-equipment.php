@@ -1,10 +1,9 @@
 <?php
 
 $host = 'localhost'; 
-$dbname = 'my_database';
-$user = 'username';
-$pass = 'password';
-$charset = 'utf8mb4';
+$dbname = 'locmns';
+$user = 'root';
+$pass = '';
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -12,7 +11,7 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+$dsn = "mysql:host=$host;dbname=$dbname";
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
@@ -22,10 +21,12 @@ try {
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
 
-$stmt = $pdo->prepare("SELECT * FROM equipment LIMIT :limit OFFSET :offset");
+$stmt = $pdo->prepare("SELECT * FROM model LIMIT :limit OFFSET :offset");
 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 
-$equipment = $stmt->fetchAll();
-echo json_encode($equipment);
+$model = $stmt->fetchAll();
+echo json_encode($model);
+
+?>
