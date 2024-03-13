@@ -13,16 +13,16 @@
     <div class="row">
       <div id="type-filter" class="col-md-3">
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action" data-type="ordi_portable">Ordinateurs portables</a>
-          <a href="#" class="list-group-item list-group-item-action" data-type="ecran_ordinateur">Ecrans d'ordinateurs</a>
+          <a href="#" class="list-group-item list-group-item-action" data-type="laptop">Ordinateurs portables</a>
+          <a href="#" class="list-group-item list-group-item-action" data-type="сomputer_monitor">Ecrans d'ordinateurs</a>
           <a href="#" class="list-group-item list-group-item-action" data-type="smartphone">Smartphones</a>
-          <a href="#" class="list-group-item list-group-item-action" data-type="accessoire">Accessoires</a>
-          <a href="#" class="list-group-item list-group-item-action" data-type="tablette">Tablettes</a>
-          <a href="#" class="list-group-item list-group-item-action" data-type="Casque_vr">Casque VR</a>
+          <a href="#" class="list-group-item list-group-item-action" data-type="accessory">Accessoires</a>
+          <a href="#" class="list-group-item list-group-item-action" data-type="tablet">Tablettes</a>
+          <a href="#" class="list-group-item list-group-item-action" data-type="VR_headset">Casque VR</a>
         </div>
       </div>
       <div id="equipment-list" class="col-md-9">
-        <!-- Здесь будут отображаться карточки оборудования -->
+        <!-- Les unités du matériel apparaîtront ici -->
       </div>
       <div class="col-md-12 text-center">
         <button id="load-more" class="btn btn-primary mt-3">Charger plus</button>
@@ -43,20 +43,27 @@
           const container = document.getElementById('equipment-list');
           container.innerHTML = '';
           data.forEach(item => {
-            const modelItem = `<div class="card mb-3" data-id="${item.id}">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="${item.photo}" class="card-img" alt="${item.name}">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">${item.name}</h5>
-                  <p class="card-text">${item.description}</p>
-                </div>
-              </div>
+            const modelItem = `<div class="card mb-3 equipment-item" data-id="${item.id_model}">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="${item.photo}" class="card-img" alt="${item.name}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${item.name}</h5>
             </div>
-          </div>`;
+          </div>
+        </div>
+      </div>`;
             container.insertAdjacentHTML('beforeend', modelItem);
+          });
+
+          // Ajout d'un gestionnaire d'événements pour chaque carte après leur création
+          document.querySelectorAll('.equipment-item').forEach(card => {
+            card.addEventListener('click', function() {
+              const id = this.getAttribute('data-id');
+              redirectToDetails(id);
+            });
           });
         })
         .catch(error => {
@@ -64,19 +71,19 @@
         });
     }
 
+
     document.querySelectorAll('#type-filter .list-group-item').forEach(item => {
       item.addEventListener('click', function(event) {
         event.preventDefault();
         const type = this.getAttribute('data-type');
         loadModel(type);
-        // Обновляем класс 'active' для элементов списка
+
         document.querySelectorAll('#type-filter .list-group-item').forEach(i => i.classList.remove('active'));
         this.classList.add('active');
-        offset = 0; // Сбрасываем смещение при смене типа
+        offset = 0;
       });
     });
 
-    // Начальная загрузка оборудования по умолчанию
     loadModel();
 
     document.getElementById('load-more').addEventListener('click', function() {

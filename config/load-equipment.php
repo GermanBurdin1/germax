@@ -23,7 +23,7 @@ $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
 
 if ($type) {
-    $stmt = $pdo->prepare("SELECT m.* FROM model m JOIN type t ON m.id_type = t.id_type WHERE t.description = :type LIMIT :limit OFFSET :offset");
+    $stmt = $pdo->prepare("SELECT m.* FROM model m JOIN type t ON m.id_type = t.id_type WHERE t.name = :type LIMIT :limit OFFSET :offset");
     $stmt->bindParam(':type', $type, PDO::PARAM_STR);
 } else {
     $stmt = $pdo->prepare("SELECT * FROM model LIMIT :limit OFFSET :offset");
